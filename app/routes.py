@@ -1,51 +1,66 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from app import db
 from app.models import Task, Category
 from app.forms import TaskForm, CategoryForm
 from datetime import datetime
+import os
 
 bp = Blueprint('main', __name__)
+
+# ===== Health Check Route =====
+
+@bp.route('/health')
+def health():
+    """Health check endpoint for debugging"""
+    db_url = os.environ.get('POSTGRES_URL', 'Not set')
+    # Hide password in display
+    if db_url and '@' in db_url:
+        db_url = db_url.split('@')[0][:20] + '...(hidden)'
+    return f"App is running! DB URL configured: {db_url != 'Not set'}"
 
 # ===== Task Routes =====
 
 @bp.route('/')
 def index():
     """Homepage - display all tasks with optional filtering"""
-    filter_status = request.args.get('filter', 'all')
-    category_id = request.args.get('category', type=int)
+    try:
+        filter_status = request.args.get('filter', 'all')
+        category_id = request.args.get('category', type=int)
 
-    # Base query
-    query = Task.query
+        # Base query
+        query = Task.query
 
-    # Apply category filter
-    if category_id:
-        query = query.filter_by(category_id=category_id)
+        # Apply category filter
+        if category_id:
+            query = query.filter_by(category_id=category_id)
 
-    # Apply status filter
-    if filter_status == 'active':
-        query = query.filter_by(completed=False)
-    elif filter_status == 'completed':
-        query = query.filter_by(completed=True)
+        # Apply status filter
+        if filter_status == 'active':
+            query = query.filter_by(completed=False)
+        elif filter_status == 'completed':
+            query = query.filter_by(completed=True)
 
-    # Order by priority and due date
-    tasks = query.order_by(Task.completed, Task.priority, Task.due_date).all()
+        # Order by priority and due date
+        tasks = query.order_by(Task.completed, Task.priority, Task.due_date).all()
 
-    # Get all categories for the sidebar/filter
-    categories = Category.query.all()
+        # Get all categories for the sidebar/filter
+        categories = Category.query.all()
 
-    # Get counts for filters
-    total_count = Task.query.count()
-    active_count = Task.query.filter_by(completed=False).count()
-    completed_count = Task.query.filter_by(completed=True).count()
+        # Get counts for filters
+        total_count = Task.query.count()
+        active_count = Task.query.filter_by(completed=False).count()
+        completed_count = Task.query.filter_by(completed=True).count()
 
-    return render_template('index.html',
-                         tasks=tasks,
-                         categories=categories,
-                         current_filter=filter_status,
-                         current_category=category_id,
-                         total_count=total_count,
-                         active_count=active_count,
-                         completed_count=completed_count)
+        return render_template('index.html',
+                             tasks=tasks,
+                             categories=categories,
+                             current_filter=filter_status,
+                             current_category=category_id,
+                             total_count=total_count,
+                             active_count=active_count,
+                             completed_count=completed_count)
+    except Exception as e:
+        return f"Database Error: {str(e)}. Please make sure POSTGRES_URL is configured in Vercel.", 500
 
 @bp.route('/tasks/new', methods=['GET', 'POST'])
 def create_task():

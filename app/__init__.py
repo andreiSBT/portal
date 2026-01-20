@@ -26,7 +26,11 @@ def create_app(config_name='default'):
     app.register_blueprint(routes.bp)
 
     # Create database tables (needed for Vercel serverless)
-    with app.app_context():
-        db.create_all()
+    # Only create tables if we have a proper database URL (not SQLite on Vercel)
+    try:
+        with app.app_context():
+            db.create_all()
+    except Exception as e:
+        app.logger.warning(f"Could not create database tables: {e}")
 
     return app
