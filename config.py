@@ -3,15 +3,20 @@ from datetime import timedelta
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+def get_database_url():
+    """Get database URL and fix postgres:// to postgresql:// for SQLAlchemy"""
+    url = os.environ.get('POSTGRES_URL') or \
+          os.environ.get('DATABASE_URL') or \
+          os.environ.get('DATABASE_URI')
+    if url and url.startswith('postgres://'):
+        url = url.replace('postgres://', 'postgresql://', 1)
+    return url or 'sqlite:///' + os.path.join(basedir, 'todo_dev.db')
+
 class Config:
     """Base configuration class"""
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-please-change-in-production'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    # Support both DATABASE_URL (Vercel Postgres) and DATABASE_URI
-    SQLALCHEMY_DATABASE_URI = os.environ.get('POSTGRES_URL') or \
-        os.environ.get('DATABASE_URL') or \
-        os.environ.get('DATABASE_URI') or \
-        'sqlite:///' + os.path.join(basedir, 'todo_dev.db')
+    SQLALCHEMY_DATABASE_URI = get_database_url()
     SERVER_NAME = os.environ.get('SERVER_NAME')
 
 class DevelopmentConfig(Config):
@@ -23,13 +28,8 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     """Production environment configuration"""
     DEBUG = False
-    # Use Vercel Postgres URL (POSTGRES_URL is automatically set by Vercel)
-    SQLALCHEMY_DATABASE_URI = os.environ.get('POSTGRES_URL') or \
-        os.environ.get('DATABASE_URL') or \
-        os.environ.get('DATABASE_URI') or \
-        'sqlite:///' + os.path.join(basedir, 'todo.db')
+    SQLALCHEMY_DATABASE_URI = get_database_url()
     # Remove SERVER_NAME for Vercel - it handles routing automatically
-    # Vercel will route based on your custom domain configuration
 
 # Configuration dictionary
 config = {
