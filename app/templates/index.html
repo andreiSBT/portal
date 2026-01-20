@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}Home - To-Do List App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Filters and Actions -->
+    <div class="col-12 mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <h1 class="mb-3"><i class="bi bi-list-task"></i> My Tasks</h1>
+            <a href="{{ url_for('main.create_task') }}" class="btn btn-primary mb-3">
+                <i class="bi bi-plus-circle"></i> Add New Task
+            </a>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="btn-group mb-3" role="group">
+            <a href="{{ url_for('main.index', filter='all') }}"
+               class="btn btn-outline-primary {% if current_filter == 'all' %}active{% endif %}">
+                All <span class="badge bg-secondary">{{ total_count }}</span>
+            </a>
+            <a href="{{ url_for('main.index', filter='active') }}"
+               class="btn btn-outline-primary {% if current_filter == 'active' %}active{% endif %}">
+                Active <span class="badge bg-secondary">{{ active_count }}</span>
+            </a>
+            <a href="{{ url_for('main.index', filter='completed') }}"
+               class="btn btn-outline-primary {% if current_filter == 'completed' %}active{% endif %}">
+                Completed <span class="badge bg-secondary">{{ completed_count }}</span>
+            </a>
+        </div>
+
+        <!-- Category Filters -->
+        {% if categories %}
+        <div class="mb-3">
+            <strong>Filter by Category:</strong>
+            <div class="d-inline-block ms-2">
+                <a href="{{ url_for('main.index') }}" class="badge text-bg-secondary text-decoration-none">
+                    All Categories
+                </a>
+                {% for cat in categories %}
+                <a href="{{ url_for('main.index', category=cat.id) }}"
+                   class="badge text-decoration-none {% if current_category == cat.id %}text-bg-dark{% endif %}"
+                   style="background-color: {{ cat.color }} !important;">
+                    {{ cat.name }} ({{ cat.tasks.count() }})
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Tasks List -->
+    <div class="col-12">
+        {% if tasks %}
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                {% for task in tasks %}
+                <div class="col">
+                    <div class="card task-card h-100 priority-{{ task.priority }} {% if task.completed %}completed{% endif %}">
+                        <div class="card-body">
+                            <!-- Category Badge -->
+                            {% if task.category %}
+                            <span class="badge mb-2" style="background-color: {{ task.category.color }};">
+                                {{ task.category.name }}
+                            </span>
+                            {% endif %}
+
+                            <!-- Priority Badge -->
+                            <span class="badge mb-2
+                                {% if task.priority == 1 %}bg-danger
+                                {% elif task.priority == 2 %}bg-warning
+                                {% else %}bg-success{% endif %}">
+                                {{ task.priority_label }}
+                            </span>
+
+                            <!-- Task Title -->
+                            <h5 class="card-title {% if task.completed %}text-decoration-line-through text-muted{% endif %}">
+                                {{ task.title }}
+                            </h5>
+
+                            <!-- Task Description -->
+                            {% if task.description %}
+                            <p class="card-text text-muted">{{ task.description[:100] }}{% if task.description|length > 100 %}...{% endif %}</p>
+                            {% endif %}
+
+                            <!-- Due Date -->
+                            {% if task.due_date %}
+                            <p class="card-text small">
+                                <i class="bi bi-calendar"></i>
+                                <span class="{% if task.is_overdue %}text-danger fw-bold{% endif %}">
+                                    Due: {{ task.due_date.strftime('%b %d, %Y %I:%M %p') }}
+                                    {% if task.is_overdue %}<i class="bi bi-exclamation-triangle-fill"></i>{% endif %}
+                                </span>
+                            </p>
+                            {% endif %}
+
+                            <!-- Created Date -->
+                            <p class="card-text small text-muted">
+                                <i class="bi bi-clock"></i> Created: {{ task.created_at.strftime('%b %d, %Y') }}
+                            </p>
+                        </div>
+
+                        <!-- Card Footer with Actions -->
+                        <div class="card-footer bg-transparent border-top">
+                            <div class="d-flex justify-content-between">
+                                <!-- Toggle Complete Button -->
+                                <form method="POST" action="{{ url_for('main.toggle_task', id=task.id) }}" class="d-inline">
+                                    <button type="submit" class="btn btn-sm {% if task.completed %}btn-outline-success{% else %}btn-success{% endif %}">
+                                        <i class="bi bi-check2-circle"></i>
+                                        {% if task.completed %}Reopen{% else %}Complete{% endif %}
+                                    </button>
+                                </form>
+
+                                <div>
+                                    <!-- Edit Button -->
+                                    <a href="{{ url_for('main.edit_task', id=task.id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+
+                                    <!-- Delete Button -->
+                                    <form method="POST" action="{{ url_for('main.delete_task', id=task.id) }}" class="d-inline delete-form">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-5">
+                <i class="bi bi-inbox" style="font-size: 5rem; color: #dee2e6;"></i>
+                <h3 class="text-muted mt-3">No tasks found</h3>
+                <p class="text-muted">Get started by creating your first task!</p>
+                <a href="{{ url_for('main.create_task') }}" class="btn btn-primary btn-lg">
+                    <i class="bi bi-plus-circle"></i> Create Task
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

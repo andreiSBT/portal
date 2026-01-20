@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Sent Messages{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h1><i class="bi bi-send text-success"></i> Messages</h1>
+        <p class="lead text-muted">Communicate with fellow Fiascha citizens</p>
+    </div>
+</div>
+
+<!-- Message Tabs -->
+<div class="row mb-4">
+    <div class="col-12">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'inbox' %}active{% endif %}" href="{{ url_for('messages.inbox') }}">
+                    <i class="bi bi-inbox"></i> Inbox
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'sent' %}active{% endif %}" href="{{ url_for('messages.sent') }}">
+                    <i class="bi bi-send"></i> Sent
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'compose' %}active{% endif %}" href="{{ url_for('messages.compose') }}">
+                    <i class="bi bi-pencil-square"></i> Compose
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Action Button -->
+<div class="row mb-3">
+    <div class="col-12">
+        <a href="{{ url_for('messages.compose') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> New Message
+        </a>
+    </div>
+</div>
+
+<!-- Sent Messages List -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="bi bi-send-fill"></i> Sent Messages ({{ messages|length }})</h5>
+            </div>
+            <div class="card-body p-0">
+                {% if messages %}
+                <div class="list-group list-group-flush">
+                    {% for message in messages %}
+                    <a href="{{ url_for('messages.view', message_id=message.id) }}" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <span>
+                                        <i class="bi bi-arrow-right-circle"></i> To: {{ message.recipient.display_name }}
+                                    </span>
+                                    <small class="text-muted">{{ message.recipient.citizen_id }}</small>
+                                    {% if message.is_read %}
+                                    <span class="badge bg-success">Read</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">Unread</span>
+                                    {% endif %}
+                                </div>
+                                <h6 class="mb-1">{{ message.subject }}</h6>
+                                <p class="mb-1 small text-muted">{{ message.content|truncate(100) }}</p>
+                            </div>
+                            <small class="text-muted text-nowrap ms-3">
+                                {{ message.created_at.strftime('%b %d, %Y %H:%M') }}
+                            </small>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="p-4 text-center text-muted">
+                    <i class="bi bi-send" style="font-size: 3rem;"></i>
+                    <p class="mt-3 mb-0">You haven't sent any messages yet.</p>
+                    <a href="{{ url_for('messages.compose') }}" class="btn btn-primary mt-3">
+                        <i class="bi bi-pencil-square"></i> Send Your First Message
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

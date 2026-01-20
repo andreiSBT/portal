@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block title %}Maps & Territories - Fiascha Portal{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex align-items-center">
+            <a href="{{ url_for('geography.index') }}" class="btn btn-outline-secondary me-3">
+                <i class="bi bi-arrow-left"></i> Back to Geography
+            </a>
+            <div class="flex-grow-1">
+                <h1 class="mb-0">
+                    <i class="bi bi-map text-primary"></i> Maps & Territories
+                </h1>
+                <p class="text-muted mb-0">Explore the geographical extent of Fiascha</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Disclaimer -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="alert alert-warning">
+            <h5 class="alert-heading"><i class="bi bi-exclamation-triangle"></i> Creative Geography</h5>
+            <p class="mb-0">The maps and territories shown here are part of Fiascha's fictional creative narrative. As a micronation, Fiascha exists primarily as a digital community and cultural concept.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Interactive Map Placeholder -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-globe"></i> Territory Overview Map (Fictional)</h4>
+            </div>
+            <div class="card-body p-0">
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 500px; position: relative;">
+                    <div class="text-center p-5">
+                        <i class="bi bi-map text-primary" style="font-size: 5rem;"></i>
+                        <h3 class="mt-3">Interactive Map Coming Soon</h3>
+                        <p class="text-muted">We're working on an interactive map to showcase Fiascha's territories</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Territory Information Cards -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-4"><i class="bi bi-geo-alt"></i> Our Territories</h2>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Main Territory -->
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm border-primary">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-star"></i> Main Territory</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <img src="https://via.placeholder.com/500x300/667eea/ffffff?text=Main+Territory" class="img-fluid rounded" alt="Main Territory">
+                </div>
+                <h6>Central Fiascha</h6>
+                <p class="text-muted small">The heart of our nation where government and cultural activities are centered.</p>
+                <ul class="list-unstyled">
+                    <li><strong>Area:</strong> TBD</li>
+                    <li><strong>Population:</strong> Majority of citizens</li>
+                    <li><strong>Features:</strong> Government buildings, cultural centers</li>
+                    <li><strong>Climate:</strong> Temperate</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Digital Territory -->
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm border-info">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-laptop"></i> Digital Territory</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <img src="https://via.placeholder.com/500x300/764ba2/ffffff?text=Digital+Territory" class="img-fluid rounded" alt="Digital Territory">
+                </div>
+                <h6>Online Fiascha</h6>
+                <p class="text-muted small">Our primary presence exists in the digital realm through this portal and various platforms.</p>
+                <ul class="list-unstyled">
+                    <li><strong>Platform:</strong> Fiascha Portal (Web)</li>
+                    <li><strong>Services:</strong> Education, News, Community</li>
+                    <li><strong>Access:</strong> 24/7 worldwide</li>
+                    <li><strong>Features:</strong> Learning platform, news system</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Points of Interest -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-4"><i class="bi bi-pin-map"></i> Points of Interest</h2>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-primary mb-3" style="font-size: 3rem;">
+                    <i class="bi bi-building"></i>
+                </div>
+                <h5 class="card-title">Government Center</h5>
+                <p class="card-text text-muted">The administrative heart of Fiascha where official decisions are made and governance occurs.</p>
+                <span class="badge bg-primary">Central Territory</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-success mb-3" style="font-size: 3rem;">
+                    <i class="bi bi-mortarboard"></i>
+                </div>
+                <h5 class="card-title">Learning Academy</h5>
+                <p class="card-text text-muted">Virtual institution where citizens master languages, chess, and other skills through our platform.</p>
+                <span class="badge bg-success">Digital Territory</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-info mb-3" style="font-size: 3rem;">
+                    <i class="bi bi-newspaper"></i>
+                </div>
+                <h5 class="card-title">News Center</h5>
+                <p class="card-text text-muted">Where journalists and officials publish news, announcements, and updates for all citizens.</p>
+                <span class="badge bg-info">Digital Territory</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-warning mb-3" style="font-size: 3rem;">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h5 class="card-title">Community Square</h5>
+                <p class="card-text text-muted">Central gathering place for citizens to interact, share ideas, and participate in community activities.</p>
+                <span class="badge bg-warning text-dark">Coming Soon</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-danger mb-3" style="font-size: 3rem;">
+                    <i class="bi bi-archive"></i>
+                </div>
+                <h5 class="card-title">National Archives</h5>
+                <p class="card-text text-muted">Repository of Fiascha's history, important documents, and cultural heritage materials.</p>
+                <span class="badge bg-danger">Coming Soon</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <div class="text-secondary mb-3" style="font-size: 3rem;">
+                    <i class="bi bi-palette"></i>
+                </div>
+                <h5 class="card-title">Cultural Center</h5>
+                <p class="card-text text-muted">Dedicated space for arts, culture, and creative expression within the Fiascha community.</p>
+                <span class="badge bg-secondary">Coming Soon</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Territory Expansion -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card shadow-sm border-success">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="bi bi-compass"></i> Future Expansion Plans</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">Fiascha is always growing! Here are some planned expansions:</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-arrow-right-circle text-success"></i> Digital Expansion</h6>
+                        <ul>
+                            <li>Mobile application for learning on the go</li>
+                            <li>Community forums and discussion boards</li>
+                            <li>Virtual reality museum and gallery</li>
+                            <li>Interactive historical experiences</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6><i class="bi bi-arrow-right-circle text-success"></i> Partnership Territories</h6>
+                        <ul>
+                            <li>Cultural exchange programs</li>
+                            <li>Educational partnerships</li>
+                            <li>International collaborations</li>
+                            <li>Sister city relationships</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

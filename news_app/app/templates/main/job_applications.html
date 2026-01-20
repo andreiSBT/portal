@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}Job Applications - Fiascha Portal{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex align-items-center mb-3">
+            <a href="{{ url_for('main.welcome') }}" class="btn btn-outline-secondary me-3">
+                <i class="bi bi-arrow-left"></i> Back to Home
+            </a>
+            <h1 class="mb-0">
+                <i class="bi bi-briefcase-fill text-primary"></i> Job Applications Dashboard
+            </h1>
+        </div>
+        <p class="lead text-muted">Review and manage citizen job applications</p>
+    </div>
+</div>
+
+<!-- Statistics -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-warning">
+            <div class="card-body text-center">
+                <h2 class="display-4 text-warning mb-0">{{ pending_count }}</h2>
+                <p class="text-muted mb-0">Pending Applications</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm border-success">
+            <div class="card-body text-center">
+                <h2 class="display-4 text-success mb-0">{{ reviewed|length }}</h2>
+                <p class="text-muted mb-0">Recently Reviewed</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pending Applications -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h3 class="mb-0">
+                    <i class="bi bi-hourglass-split"></i> Pending Applications ({{ pending_count }})
+                </h3>
+            </div>
+            <div class="card-body">
+                {% if pending %}
+                <div class="list-group">
+                    {% for app in pending %}
+                    <div class="list-group-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h5 class="mb-1">
+                                    <i class="bi
+                                        {% if app.job_title == 'Policeman' %}bi-shield-fill-check
+                                        {% elif app.job_title == 'Soldier' %}bi-person-badge-fill
+                                        {% elif app.job_title == 'Judge' %}bi-hammer
+                                        {% elif app.job_title == 'Lawyer' %}bi-briefcase-fill
+                                        {% elif app.job_title == 'Journalist' %}bi-newspaper
+                                        {% elif app.job_title == 'Coach' %}bi-trophy-fill
+                                        {% endif %}"></i>
+                                    {{ app.job_title }}
+                                </h5>
+                                <p class="mb-1">
+                                    <strong>Applicant:</strong> {{ app.applicant.display_name }}
+                                    <span class="badge bg-secondary">{{ app.applicant.citizen_id }}</span>
+                                </p>
+                                <p class="mb-1 small text-muted">
+                                    <i class="bi bi-calendar"></i> Applied: {{ app.created_at.strftime('%B %d, %Y at %H:%M') }}
+                                </p>
+                                {% if app.message %}
+                                <p class="mb-0 small">
+                                    <strong>Message:</strong> {{ app.message }}
+                                </p>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <!-- Approve Button -->
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#approveModal{{ app.id }}">
+                                        <i class="bi bi-check-circle"></i> Approve
+                                    </button>
+
+                                    <!-- Deny Button -->
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#denyModal{{ app.id }}">
+                                        <i class="bi bi-x-circle"></i> Deny
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Approve Modal -->
+                        <div class="modal fade" id="approveModal{{ app.id }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="POST" action="{{ url_for('main.approve_application', application_id=app.id) }}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                        <div class="modal-header bg-success text-white">
+                                            <h5 class="modal-title">Approve Application</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>You are about to approve <strong>{{ app.applicant.display_name }}</strong> for the position of <strong>{{ app.job_title }}</strong>.</p>
+                                            <div class="mb-3">
+                                                <label for="response{{ app.id }}" class="form-label">Response (Optional)</label>
+                                                <textarea class="form-control" id="response{{ app.id }}" name="response" rows="2" placeholder="Congratulations! You've been approved for..."></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="bi bi-check-circle"></i> Approve Application
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Deny Modal -->
+                        <div class="modal fade" id="denyModal{{ app.id }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="POST" action="{{ url_for('main.deny_application', application_id=app.id) }}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                        <div class="modal-header bg-danger text-white">
+                                            <h5 class="modal-title">Deny Application</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>You are about to deny <strong>{{ app.applicant.display_name }}</strong>'s application for <strong>{{ app.job_title }}</strong>.</p>
+                                            <div class="mb-3">
+                                                <label for="denyResponse{{ app.id }}" class="form-label">Reason for Denial <span class="text-danger">*</span></label>
+                                                <textarea class="form-control" id="denyResponse{{ app.id }}" name="response" rows="3" placeholder="Please explain why the application is being denied..." required></textarea>
+                                                <div class="form-text">This message will be visible to the applicant.</div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-danger">
+                                                <i class="bi bi-x-circle"></i> Deny Application
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info mb-0">
+                    <i class="bi bi-info-circle"></i> No pending applications at this time.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recently Reviewed -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h3 class="mb-0">
+                    <i class="bi bi-clock-history"></i> Recently Reviewed Applications
+                </h3>
+            </div>
+            <div class="card-body">
+                {% if reviewed %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Applicant</th>
+                                <th>Job</th>
+                                <th>Status</th>
+                                <th>Applied</th>
+                                <th>Reviewed</th>
+                                <th>Reviewed By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for app in reviewed %}
+                            <tr>
+                                <td>
+                                    <strong>{{ app.applicant.display_name }}</strong>
+                                    <br>
+                                    <small class="text-muted">{{ app.applicant.citizen_id }}</small>
+                                </td>
+                                <td>
+                                    <i class="bi
+                                        {% if app.job_title == 'Policeman' %}bi-shield-fill-check
+                                        {% elif app.job_title == 'Soldier' %}bi-person-badge-fill
+                                        {% elif app.job_title == 'Judge' %}bi-hammer
+                                        {% elif app.job_title == 'Lawyer' %}bi-briefcase-fill
+                                        {% elif app.job_title == 'Journalist' %}bi-newspaper
+                                        {% elif app.job_title == 'Coach' %}bi-trophy-fill
+                                        {% endif %}"></i>
+                                    {{ app.job_title }}
+                                </td>
+                                <td>
+                                    {% if app.status == 'approved' %}
+                                    <span class="badge bg-success"><i class="bi bi-check-circle"></i> Approved</span>
+                                    {% else %}
+                                    <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Denied</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <small>{{ app.created_at.strftime('%b %d, %Y') }}</small>
+                                </td>
+                                <td>
+                                    <small>{{ app.reviewed_at.strftime('%b %d, %Y') if app.reviewed_at else '-' }}</small>
+                                </td>
+                                <td>
+                                    <small>{{ app.reviewer.display_name if app.reviewer else '-' }}</small>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info mb-0">
+                    <i class="bi bi-info-circle"></i> No reviewed applications yet.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

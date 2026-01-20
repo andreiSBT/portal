@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block title %}National Symbols - Fiascha Portal{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex align-items-center">
+            <a href="{{ url_for('geography.index') }}" class="btn btn-outline-secondary me-3">
+                <i class="bi bi-arrow-left"></i> Back to Geography
+            </a>
+            <div class="flex-grow-1">
+                <h1 class="mb-0">
+                    <i class="bi bi-flag-fill text-danger"></i> National Symbols
+                </h1>
+                <p class="text-muted mb-0">The symbols that represent Fiascha's identity and values</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- National Flag -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h3 class="mb-0"><i class="bi bi-flag"></i> National Flag</h3>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-5 text-center mb-3 mb-md-0">
+                        <div class="p-4 bg-light rounded">
+                            <!-- Vertical Tricolor Flag: Very Dark Blue, Orange-Yellow, Dark Green (2:3 proportion) -->
+                            <div style="width: 300px; height: 200px; display: flex; border: 3px solid #333; box-shadow: 0 5px 15px rgba(0,0,0,0.3); margin: 0 auto;">
+                                <div style="flex: 1; background: #0D47A1;"></div>
+                                <div style="flex: 1; background: #FFB300;"></div>
+                                <div style="flex: 1; background: #2E7D32;"></div>
+                            </div>
+                            <p class="mt-3 mb-1 small"><strong>Proportion:</strong> 2:3</p>
+                            <p class="mb-0 small text-muted">Official flag of Fiascha</p>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <h4>The Flag of Fiascha</h4>
+                        <p>The national flag is a vertical tricolor representing our values and the natural beauty of our nation.</p>
+                        <h6 class="mt-3">Design Specifications:</h6>
+                        <ul>
+                            <li><strong>Format:</strong> Vertical tricolor (three equal vertical stripes)</li>
+                            <li><strong>Proportion:</strong> 2:3 (width to length)</li>
+                            <li><strong>Colors:</strong> Blue, Orange-Yellow, Green (from left to right)</li>
+                        </ul>
+                        <h6 class="mt-3">Symbolism:</h6>
+                        <ul>
+                            <li><strong>Blue (Left)</strong> - Represents knowledge, education, and the endless pursuit of learning</li>
+                            <li><strong>Orange-Yellow (Center)</strong> - Symbolizes energy, creativity, and the bright future ahead</li>
+                            <li><strong>Green (Right)</strong> - Represents growth, harmony, and our commitment to sustainability</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Coat of Arms -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-warning text-dark">
+                <h3 class="mb-0"><i class="bi bi-shield-fill"></i> Coat of Arms</h3>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-5 text-center mb-3 mb-md-0">
+                        <div class="p-4 bg-light rounded">
+                            <div style="font-size: 150px; color: #667eea;">🛡️</div>
+                            <p class="mt-3 mb-0 small text-muted">Placeholder - Official coat of arms in development</p>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <h4>The Coat of Arms</h4>
+                        <p>Our coat of arms embodies the core principles and heritage of Fiascha.</p>
+                        <h6 class="mt-3">Planned Elements:</h6>
+                        <ul>
+                            <li><strong>Shield</strong> - Protection and strength of our nation</li>
+                            <li><strong>Book</strong> - Commitment to education and knowledge</li>
+                            <li><strong>Chess Piece</strong> - Strategic thinking and wisdom</li>
+                            <li><strong>Laurel Wreath</strong> - Achievement and excellence</li>
+                            <li><strong>Stars</strong> - Our multilingual focus (4 main languages)</li>
+                        </ul>
+                        <div class="alert alert-warning mt-3">
+                            <strong><i class="bi bi-tools"></i> In Development:</strong> The official coat of arms is being designed by our citizens. Stay tuned!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- National Colors -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h3 class="mb-0"><i class="bi bi-palette-fill"></i> National Colors</h3>
+            </div>
+            <div class="card-body">
+                <h4>Official National Colors</h4>
+                <p>The national colors of Fiascha are <strong>Golden-Yellow</strong> and <strong>Green</strong>, inspired by nations like Australia. These colors are used in official emblems, sporting uniforms, and ceremonial occasions.</p>
+
+                <div class="alert alert-success mb-4">
+                    <h6 class="alert-heading"><i class="bi bi-star-fill"></i> National Colors</h6>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <div style="width: 40px; height: 40px; background: #FFD700; border: 2px solid #333; border-radius: 4px;"></div>
+                            <span><strong>Golden-Yellow</strong></span>
+                        </div>
+                        <span class="fs-4">&</span>
+                        <div class="d-flex align-items-center gap-2">
+                            <div style="width: 40px; height: 40px; background: #4CAF50; border: 2px solid #333; border-radius: 4px;"></div>
+                            <span><strong>Green</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <h5 class="mt-4">Flag Colors</h5>
+                <p class="small text-muted">The flag uses these three colors in a vertical tricolor design:</p>
+                <div class="row g-3 mt-2">
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm">
+                            <div style="height: 120px; background: #0D47A1;"></div>
+                            <div class="card-body text-center">
+                                <h5>Very Dark Blue</h5>
+                                <code>#0D47A1</code>
+                                <p class="small text-muted mt-2 mb-0">Flag Color - Knowledge & Learning</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm">
+                            <div style="height: 120px; background: #FFB300;"></div>
+                            <div class="card-body text-center">
+                                <h5>Orange-Yellow</h5>
+                                <code>#FFB300</code>
+                                <p class="small text-muted mt-2 mb-0">Flag Color - Energy & Creativity</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card border-0 shadow-sm">
+                            <div style="height: 120px; background: #2E7D32;"></div>
+                            <div class="card-body text-center">
+                                <h5>Dark Green</h5>
+                                <code>#2E7D32</code>
+                                <p class="small text-muted mt-2 mb-0">Flag Color - Growth & Harmony</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- National Anthem -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0"><i class="bi bi-music-note-beamed"></i> National Anthem</h3>
+            </div>
+            <div class="card-body">
+                <h4>"Rise, Fiascha" (Concept)</h4>
+                <p class="text-muted">Inspiring anthem celebrating our values and aspirations</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <h6>First Verse (Concept):</h6>
+                            <p class="font-monospace small mb-0">
+                                Rise, Fiascha, land of learning bright,<br>
+                                Where knowledge shines as guiding light,<br>
+                                In unity we stand so proud,<br>
+                                Our voices strong, our spirits loud.<br>
+                                <br>
+                                <em>(Chorus)</em><br>
+                                Fiascha, Fiascha, nation true,<br>
+                                Blue and purple through and through,<br>
+                                Education, culture, innovation strong,<br>
+                                In Fiascha we belong!
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Anthem Details:</h6>
+                        <ul>
+                            <li><strong>Tempo:</strong> Moderato (moderate pace)</li>
+                            <li><strong>Key:</strong> To be determined</li>
+                            <li><strong>Language:</strong> Multilingual versions planned</li>
+                            <li><strong>Composer:</strong> To be selected through community competition</li>
+                        </ul>
+                        <div class="alert alert-success mt-3">
+                            <strong><i class="bi bi-megaphone"></i> Call for Artists:</strong> We're looking for musicians and lyricists to help create our national anthem!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Other Symbols -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="bi bi-stars"></i> Other National Symbols</h3>
+            </div>
+            <div class="card-body">
+                <div class="row g-4">
+                    <!-- National Motto -->
+                    <div class="col-md-6">
+                        <div class="text-center p-4 bg-light rounded">
+                            <div class="display-4 mb-3">📜</div>
+                            <h5>National Motto</h5>
+                            <p class="lead mb-2">"Scientia, Cultura, Unitas"</p>
+                            <p class="text-muted small">(Knowledge, Culture, Unity)</p>
+                        </div>
+                    </div>
+
+                    <!-- National Animal -->
+                    <div class="col-md-6">
+                        <div class="text-center p-4 bg-light rounded">
+                            <div class="display-4 mb-3">🦅</div>
+                            <h5>National Animal</h5>
+                            <p class="lead mb-2">The Eagle</p>
+                            <p class="text-muted small">Symbolizing vision, strength, and freedom</p>
+                        </div>
+                    </div>
+
+                    <!-- National Tree -->
+                    <div class="col-md-6">
+                        <div class="text-center p-4 bg-light rounded">
+                            <div class="display-4 mb-3">🌳</div>
+                            <h5>National Tree</h5>
+                            <p class="lead mb-2">The Oak</p>
+                            <p class="text-muted small">Representing strength, wisdom, and longevity</p>
+                        </div>
+                    </div>
+
+                    <!-- National Flower -->
+                    <div class="col-md-6">
+                        <div class="text-center p-4 bg-light rounded">
+                            <div class="display-4 mb-3">🌸</div>
+                            <h5>National Flower</h5>
+                            <p class="lead mb-2">The Iris</p>
+                            <p class="text-muted small">Symbolizing wisdom, hope, and courage</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Usage Guidelines -->
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-warning">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Symbol Usage Guidelines</h4>
+            </div>
+            <div class="card-body">
+                <p>National symbols are important representations of Fiascha and should be used respectfully:</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="text-success"><i class="bi bi-check-circle"></i> Permitted Uses:</h6>
+                        <ul class="small">
+                            <li>Official government communications</li>
+                            <li>Educational materials about Fiascha</li>
+                            <li>Citizen profile displays</li>
+                            <li>Community events and celebrations</li>
+                            <li>News articles and announcements</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="text-danger"><i class="bi bi-x-circle"></i> Please Avoid:</h6>
+                        <ul class="small">
+                            <li>Distorting or modifying official symbols</li>
+                            <li>Using symbols for commercial purposes without permission</li>
+                            <li>Disrespectful or inappropriate usage</li>
+                            <li>Misrepresenting Fiascha's identity</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="alert alert-info mt-3 mb-0">
+                    <strong><i class="bi bi-info-circle"></i> Questions?</strong> Contact the administration if you're unsure about symbol usage.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

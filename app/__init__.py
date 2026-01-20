@@ -1,0 +1,28 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_wtf.csrf import CSRFProtect
+from config import config
+
+# Initialize extensions
+db = SQLAlchemy()
+migrate = Migrate()
+csrf = CSRFProtect()
+
+def create_app(config_name='default'):
+    """Application factory pattern"""
+    app = Flask(__name__)
+
+    # Load configuration
+    app.config.from_object(config[config_name])
+
+    # Initialize extensions with app
+    db.init_app(app)
+    migrate.init_app(app, db)
+    csrf.init_app(app)
+
+    # Register blueprints/routes
+    from app import routes, models
+    app.register_blueprint(routes.bp)
+
+    return app

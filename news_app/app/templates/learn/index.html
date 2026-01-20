@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}Learn - Fiascha Portal{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="p-4 bg-gradient rounded-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h1 class="display-5">
+                <i class="bi bi-mortarboard-fill"></i> Learn with Fiascha
+            </h1>
+            <p class="lead mb-0">Master languages, skills, and knowledge - Fiaschan style!</p>
+        </div>
+    </div>
+</div>
+
+<!-- User Progress Overview (Optional - can be added later) -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-fire text-danger"></i> Your Streak</h5>
+                <p class="display-6 mb-0">0 days</p>
+                <small class="text-muted">Start learning to begin your streak!</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-trophy text-warning"></i> Experience Points</h5>
+                <p class="display-6 mb-0">0 XP</p>
+                <small class="text-muted">Complete lessons to earn XP!</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Available Courses -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="mb-4">
+            <i class="bi bi-book-half"></i> Available Courses
+        </h2>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Romanian Course -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow hover-shadow" style="cursor: pointer; transition: all 0.3s;">
+            <div class="card-body text-center">
+                <div class="mb-3" style="font-size: 4rem;">🇷🇴</div>
+                <h3 class="card-title">Romanian</h3>
+                <p class="text-muted mb-3">Learn the beautiful Romanian language</p>
+                <div class="progress mb-3" style="height: 8px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                </div>
+                <p class="small text-muted mb-3">0% Complete | 0/50 Lessons</p>
+                <a href="{{ url_for('learn.languages') }}?course=romanian" class="btn btn-primary btn-lg w-100">
+                    <i class="bi bi-play-circle"></i> Start Course
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- English Course -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow hover-shadow" style="cursor: pointer; transition: all 0.3s;">
+            <div class="card-body text-center">
+                <div class="mb-3" style="font-size: 4rem;">🇬🇧</div>
+                <h3 class="card-title">English</h3>
+                <p class="text-muted mb-3">Master the global language</p>
+                <div class="progress mb-3" style="height: 8px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                </div>
+                <p class="small text-muted mb-3">0% Complete | 0/50 Lessons</p>
+                <a href="{{ url_for('learn.languages') }}?course=english" class="btn btn-primary btn-lg w-100">
+                    <i class="bi bi-play-circle"></i> Start Course
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- French Course -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow hover-shadow" style="cursor: pointer; transition: all 0.3s;">
+            <div class="card-body text-center">
+                <div class="mb-3" style="font-size: 4rem;">🇫🇷</div>
+                <h3 class="card-title">French</h3>
+                <p class="text-muted mb-3">Learn the language of romance</p>
+                <div class="progress mb-3" style="height: 8px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                </div>
+                <p class="small text-muted mb-3">0% Complete | 0/50 Lessons</p>
+                <a href="{{ url_for('learn.languages') }}?course=french" class="btn btn-primary btn-lg w-100">
+                    <i class="bi bi-play-circle"></i> Start Course
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- German Course -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow hover-shadow" style="cursor: pointer; transition: all 0.3s;">
+            <div class="card-body text-center">
+                <div class="mb-3" style="font-size: 4rem;">🇩🇪</div>
+                <h3 class="card-title">German</h3>
+                <p class="text-muted mb-3">Learn the language of precision</p>
+                <div class="progress mb-3" style="height: 8px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                </div>
+                <p class="small text-muted mb-3">0% Complete | 0/50 Lessons</p>
+                <a href="{{ url_for('learn.languages') }}?course=german" class="btn btn-primary btn-lg w-100">
+                    <i class="bi bi-play-circle"></i> Start Course
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chess Course -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow hover-shadow" style="cursor: pointer; transition: all 0.3s;">
+            <div class="card-body text-center">
+                <div class="mb-3" style="font-size: 4rem;">♟️</div>
+                <h3 class="card-title">Chess Mastery</h3>
+                <p class="text-muted mb-3">Learn the game of strategy</p>
+                <div class="progress mb-3" style="height: 8px;">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 0%"></div>
+                </div>
+                <p class="small text-muted mb-3">0% Complete | 0/40 Lessons</p>
+                <a href="{{ url_for('learn.languages') }}?course=chess" class="btn btn-warning btn-lg w-100">
+                    <i class="bi bi-play-circle"></i> Start Course
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Citizenship Course -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow hover-shadow border-info" style="cursor: pointer; transition: all 0.3s;">
+            <div class="card-body text-center">
+                <div class="mb-3" style="font-size: 4rem;">📜</div>
+                <h3 class="card-title">Citizenship Guide</h3>
+                <p class="text-muted mb-3">Learn about Fiaschan citizenship</p>
+                <div class="progress mb-3" style="height: 8px;">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 0%"></div>
+                </div>
+                <p class="small text-muted mb-3">Essential for all citizens</p>
+                <a href="{{ url_for('learn.citizenship') }}" class="btn btn-info btn-lg w-100">
+                    <i class="bi bi-book"></i> View Guide
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Coming Soon Section -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="alert alert-secondary" role="alert">
+            <h5 class="alert-heading"><i class="bi bi-clock-history"></i> Coming Soon</h5>
+            <p class="mb-0">More courses will be added soon, including Fiaschan History and Geography! Stay tuned.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<style>
+.hover-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Compose Message{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <h1><i class="bi bi-pencil-square text-primary"></i> Messages</h1>
+        <p class="lead text-muted">Communicate with fellow Fiascha citizens</p>
+    </div>
+</div>
+
+<!-- Message Tabs -->
+<div class="row mb-4">
+    <div class="col-12">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'inbox' %}active{% endif %}" href="{{ url_for('messages.inbox') }}">
+                    <i class="bi bi-inbox"></i> Inbox
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'sent' %}active{% endif %}" href="{{ url_for('messages.sent') }}">
+                    <i class="bi bi-send"></i> Sent
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if active_tab == 'compose' %}active{% endif %}" href="{{ url_for('messages.compose') }}">
+                    <i class="bi bi-pencil-square"></i> Compose
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Compose Form -->
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-envelope"></i> New Message</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('messages.compose') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+                    <!-- Recipient -->
+                    <div class="mb-3">
+                        <label for="recipient_id" class="form-label">To: <span class="text-danger">*</span></label>
+                        <select class="form-select" id="recipient_id" name="recipient_id" required {% if reply_to %}disabled{% endif %}>
+                            <option value="">Select a citizen...</option>
+                            {% for user in users %}
+                            <option value="{{ user.id }}" {% if reply_to and reply_to.sender_id == user.id %}selected{% endif %}>
+                                {{ user.display_name }} ({{ user.citizen_id }}) - {{ user.citizen_rank }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        {% if reply_to %}
+                        <input type="hidden" name="recipient_id" value="{{ reply_to.sender_id }}"/>
+                        <small class="form-text text-muted">Replying to {{ reply_to.sender.display_name }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Subject -->
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Subject: <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="subject" name="subject"
+                               value="{% if reply_to %}Re: {{ reply_to.subject }}{% endif %}"
+                               placeholder="Enter message subject" required maxlength="200">
+                    </div>
+
+                    <!-- Content -->
+                    <div class="mb-3">
+                        <label for="content" class="form-label">Message: <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="content" name="content" rows="8"
+                                  placeholder="Write your message here..." required></textarea>
+                        {% if reply_to %}
+                        <small class="form-text text-muted">Original message: "{{ reply_to.content|truncate(100) }}"</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send"></i> Send Message
+                        </button>
+                        <a href="{{ url_for('messages.inbox') }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Panel -->
+    <div class="col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h6 class="mb-0"><i class="bi bi-info-circle"></i> Messaging Tips</h6>
+            </div>
+            <div class="card-body">
+                <ul class="small mb-0">
+                    <li>Be respectful and courteous to fellow citizens</li>
+                    <li>Keep subjects clear and concise</li>
+                    <li>Messages are private between sender and recipient</li>
+                    <li>The President and admins can see all messages for moderation</li>
+                    <li>Use professional language appropriate for Fiascha</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Active Citizens -->
+        <div class="card shadow-sm mt-3">
+            <div class="card-header bg-success text-white">
+                <h6 class="mb-0"><i class="bi bi-people"></i> Active Citizens</h6>
+            </div>
+            <div class="card-body">
+                <p class="small mb-2">{{ users|length }} citizens available to message:</p>
+                <div class="d-flex flex-wrap gap-1">
+                    {% for user in users[:10] %}
+                    <span class="badge bg-secondary">{{ user.display_name }}</span>
+                    {% endfor %}
+                    {% if users|length > 10 %}
+                    <span class="badge bg-light text-dark">+{{ users|length - 10 }} more</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

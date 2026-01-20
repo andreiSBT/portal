@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+
+{% block title %}Geography & History - Fiascha Portal{% endblock %}
+
+{% block content %}
+<!-- Header Section -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="p-4 bg-gradient rounded-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h1 class="display-5">
+                <i class="bi bi-globe"></i> Geography & History of Fiascha
+            </h1>
+            <p class="lead mb-0">Explore our territories, symbols, and the timeline of our nation</p>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Stats -->
+<div class="row g-4 mb-5">
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-center shadow-sm h-100">
+            <div class="card-body">
+                <div class="display-4 text-primary mb-2">
+                    <i class="bi bi-calendar-event"></i>
+                </div>
+                <h5 class="card-title">Founded</h5>
+                <p class="card-text text-muted mb-0">December 21, 2022</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-center shadow-sm h-100">
+            <div class="card-body">
+                <div class="display-4 text-success mb-2">
+                    <i class="bi bi-map"></i>
+                </div>
+                <h5 class="card-title">Territories</h5>
+                <p class="card-text text-muted mb-0">Multiple regions</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-center shadow-sm h-100">
+            <div class="card-body">
+                <div class="display-4 text-info mb-2">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h5 class="card-title">Population</h5>
+                <p class="card-text text-muted mb-0">Growing community</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card text-center shadow-sm h-100">
+            <div class="card-body">
+                <div class="display-4 text-warning mb-2">
+                    <i class="bi bi-translate"></i>
+                </div>
+                <h5 class="card-title">Languages</h5>
+                <p class="card-text text-muted mb-0">4 official languages</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Sections -->
+<div class="row g-4">
+    <!-- Maps & Territories -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm hover-card">
+            <img src="https://via.placeholder.com/400x250/667eea/ffffff?text=Maps+%26+Territories" class="card-img-top" alt="Maps">
+            <div class="card-body">
+                <h3 class="card-title">
+                    <i class="bi bi-geo-alt text-primary"></i> Maps & Territories
+                </h3>
+                <p class="card-text">Explore interactive maps of Fiascha's territories, regions, and points of interest. Discover where we are and what makes each area unique.</p>
+                <ul class="list-unstyled mb-3">
+                    <li><i class="bi bi-check-circle text-success"></i> Interactive maps</li>
+                    <li><i class="bi bi-check-circle text-success"></i> Regional information</li>
+                    <li><i class="bi bi-check-circle text-success"></i> Points of interest</li>
+                    <li><i class="bi bi-check-circle text-success"></i> Territory claims</li>
+                </ul>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{{ url_for('geography.maps') }}" class="btn btn-primary w-100">
+                    <i class="bi bi-arrow-right"></i> Explore Maps
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Historical Timeline -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm hover-card">
+            <img src="https://via.placeholder.com/400x250/764ba2/ffffff?text=Historical+Timeline" class="card-img-top" alt="Timeline">
+            <div class="card-body">
+                <h3 class="card-title">
+                    <i class="bi bi-clock-history text-success"></i> Historical Timeline
+                </h3>
+                <p class="card-text">Journey through Fiascha's history from foundation to present day. Key events, milestones, and important dates in our nation's development.</p>
+                <ul class="list-unstyled mb-3">
+                    <li><i class="bi bi-check-circle text-success"></i> Foundation story</li>
+                    <li><i class="bi bi-check-circle text-success"></i> Major milestones</li>
+                    <li><i class="bi bi-check-circle text-success"></i> Key achievements</li>
+                    <li><i class="bi bi-check-circle text-success"></i> Future goals</li>
+                </ul>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{{ url_for('geography.timeline') }}" class="btn btn-success w-100">
+                    <i class="bi bi-arrow-right"></i> View Timeline
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- National Symbols -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm hover-card">
+            <img src="https://via.placeholder.com/400x250/e67e22/ffffff?text=National+Symbols" class="card-img-top" alt="Symbols">
+            <div class="card-body">
+                <h3 class="card-title">
+                    <i class="bi bi-flag text-info"></i> National Symbols
+                </h3>
+                <p class="card-text">Learn about Fiascha's flag, coat of arms, anthem, and other official symbols that represent our values, culture, and identity.</p>
+                <ul class="list-unstyled mb-3">
+                    <li><i class="bi bi-check-circle text-success"></i> National flag</li>
+                    <li><i class="bi bi-check-circle text-success"></i> Coat of arms</li>
+                    <li><i class="bi bi-check-circle text-success"></i> National anthem</li>
+                    <li><i class="bi bi-check-circle text-success"></i> Official colors</li>
+                </ul>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{{ url_for('geography.symbols') }}" class="btn btn-info w-100">
+                    <i class="bi bi-arrow-right"></i> View Symbols
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- About Fiascha Section -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="bi bi-info-circle"></i> About Fiascha</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <p class="lead">Fiascha is a micronation founded on December 21, 2022, dedicated to education, culture, and innovation.</p>
+                        <p>Our nation brings together citizens from around the world who share common values of learning, collaboration, and creativity. We emphasize multilingual education (Romanian, English, French, German), strategic thinking (Chess), and cultural exchange.</p>
+                        <p class="mb-0">As a micronation, we focus on building a strong community identity through our symbols, history, and shared goals for the future.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded">
+                            <h5 class="mb-3"><i class="bi bi-star text-warning"></i> Core Values</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Education First</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Cultural Diversity</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Innovation</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Community</li>
+                                <li class="mb-2"><i class="bi bi-check-circle text-success"></i> Respect</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<style>
+.hover-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.hover-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+}
+</style>
+{% endblock %}

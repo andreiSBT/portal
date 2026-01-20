@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - Fiascha Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-{% if article %}pencil{% else %}plus-circle{% endif %}"></i>
+                    {{ title }}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control" ~ (" is-invalid" if form.title.errors else "")) }}
+                        {% if form.title.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.title.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.summary.label(class="form-label") }}
+                        {{ form.summary(class="form-control" ~ (" is-invalid" if form.summary.errors else ""), rows=2) }}
+                        {% if form.summary.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.summary.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Brief description shown in article listings (max 500 characters)</div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.content.label(class="form-label") }}
+                        {{ form.content(class="form-control" ~ (" is-invalid" if form.content.errors else ""), rows=15) }}
+                        {% if form.content.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.content.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.category.label(class="form-label") }}
+                        {{ form.category(class="form-select" ~ (" is-invalid" if form.category.errors else "")) }}
+                        {% if form.category.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.category.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.image.label(class="form-label") }}
+                        {{ form.image(class="form-control" ~ (" is-invalid" if form.image.errors else "")) }}
+                        {% if form.image.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.image.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        {% if article and article.image_url %}
+                        <div class="mt-2">
+                            <small class="text-muted">Current image:</small><br>
+                            <img src="{{ article.image_url }}" class="img-thumbnail mt-1" style="max-width: 200px;" alt="Current image">
+                        </div>
+                        {% endif %}
+                        <div class="form-text">Upload a featured image (jpg, jpeg, png, gif - max 5MB)</div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        {{ form.is_published(class="form-check-input") }}
+                        {{ form.is_published.label(class="form-check-label") }}
+                        <div class="form-text">Unpublished articles are only visible to admins</div>
+                    </div>
+
+                    <div class="mb-3 form-check">
+                        {{ form.is_featured(class="form-check-input") }}
+                        {{ form.is_featured.label(class="form-check-label") }}
+                        <div class="form-text">Featured articles appear on the home page</div>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% if article %}{{ url_for('news.article', slug=article.slug) }}{% else %}{{ url_for('news.index') }}{% endif %}"
+                           class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

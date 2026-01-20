@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Categories - Fiascha Portal{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-tags"></i> Manage Categories</h1>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+        <i class="bi bi-plus-circle"></i> New Category
+    </button>
+</div>
+
+{% if categories %}
+<div class="row g-3">
+    {% for category in categories %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center" style="background-color: {{ category.color }}; color: white;">
+                <h5 class="mb-0">{{ category.name }}</h5>
+                <span class="badge bg-light text-dark">{{ category.articles.count() }} articles</span>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ category.description if category.description else 'No description' }}</p>
+                <p class="card-text">
+                    <small class="text-muted">
+                        <i class="bi bi-link-45deg"></i> Slug: {{ category.slug }}
+                    </small>
+                </p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <button type="button" class="btn btn-sm btn-outline-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#editModal{{ category.id }}">
+                    <i class="bi bi-pencil"></i> Edit
+                </button>
+                <a href="{{ url_for('news.index', category=category.id) }}" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-newspaper"></i> View Articles
+                </a>
+                {% if category.articles.count() == 0 %}
+                <button type="button" class="btn btn-sm btn-outline-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteModal{{ category.id }}">
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editModal{{ category.id }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Category</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="{{ url_for('news.edit_category', category_id=category.id) }}" method="POST">
+                        {{ csrf_token() }}
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label">Category Name</label>
+                                <input type="text" name="name" class="form-control" value="{{ category.name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea name="description" class="form-control" rows="3">{{ category.description if category.description }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Color</label>
+                                <input type="color" name="color" class="form-control" value="{{ category.color }}" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Modal -->
+        {% if category.articles.count() == 0 %}
+        <div class="modal fade" id="deleteModal{{ category.id }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Category</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete the category "{{ category.name }}"?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <form action="{{ url_for('news.delete_category', category_id=category.id) }}" method="POST" class="d-inline">
+                            {{ csrf_token() }}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info">
+    <i class="bi bi-info-circle"></i> No categories yet. Create one to get started!
+</div>
+{% endif %}
+
+<!-- Create Category Modal -->
+<div class="modal fade" id="createModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('news.create_category') }}" method="POST">
+                {{ csrf_token() }}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Category Name</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Color</label>
+                        <input type="color" name="color" class="form-control" value="#3498db" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

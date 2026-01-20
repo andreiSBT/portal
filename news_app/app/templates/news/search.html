@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results - Fiascha Portal{% endblock %}
+
+{% block content %}
+<h1 class="mb-4"><i class="bi bi-search"></i> Search Articles</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form action="{{ url_for('news.search') }}" method="GET">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input type="text" name="query" class="form-control" placeholder="Search by title, content, or summary..." value="{{ query_text }}">
+                </div>
+                <div class="col-md-4">
+                    <select name="category" class="form-select">
+                        {% for value, label in form.category.choices %}
+                        <option value="{{ value }}" {% if value == category_id %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if query_text or category_id %}
+<p class="text-muted">
+    {% if query_text %}
+    Showing results for: <strong>"{{ query_text }}"</strong>
+    {% endif %}
+    {% if category_id and category_id > 0 %}
+    {% if query_text %}in{% else %}Showing results in{% endif %}
+    <strong>{{ form.category.choices[category_id][1] if category_id < form.category.choices|length }}</strong>
+    {% endif %}
+</p>
+{% endif %}
+
+{% if articles %}
+<div class="row g-4">
+    {% for article in articles %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+            {% if article.image_url %}
+            <img src="{{ article.image_url }}" class="card-img-top" alt="{{ article.title }}" style="height: 200px; object-fit: cover;">
+            {% else %}
+            <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                <i class="bi bi-newspaper text-white" style="font-size: 3rem;"></i>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <span class="badge" style="background-color: {{ article.category.color }};">
+                    {{ article.category.name }}
+                </span>
+                <h5 class="card-title mt-2">{{ article.title }}</h5>
+                <p class="card-text text-muted">
+                    {{ article.summary|truncate(100) if article.summary else article.content|truncate(100)|striptags }}
+                </p>
+                <p class="card-text">
+                    <small class="text-muted">
+                        <i class="bi bi-calendar"></i> {{ article.formatted_publish_date }}
+                        <i class="bi bi-person ms-2"></i> {{ article.author.display_name }}
+                    </small>
+                </p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{{ url_for('news.article', slug=article.slug) }}" class="btn btn-outline-primary btn-sm">
+                    Read More <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if pagination.pages > 1 %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+            <a class="page-link" href="{% if pagination.has_prev %}{{ url_for('news.search', query=query_text, category=category_id, page=pagination.prev_num) }}{% else %}#{% endif %}">
+                Previous
+            </a>
+        </li>
+        {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+            <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('news.search', query=query_text, category=category_id, page=page_num) }}">
+                    {{ page_num }}
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+        {% endfor %}
+        <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+            <a class="page-link" href="{% if pagination.has_next %}{{ url_for('news.search', query=query_text, category=category_id, page=pagination.next_num) }}{% else %}#{% endif %}">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+
+{% else %}
+<div class="alert alert-info" role="alert">
+    <i class="bi bi-info-circle"></i>
+    {% if query_text or category_id %}
+    No articles found matching your search criteria. Try different keywords or categories.
+    {% else %}
+    Enter search terms to find articles.
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

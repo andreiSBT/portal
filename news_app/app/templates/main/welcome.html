@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - Fiascha Portal{% endblock %}
+
+{% block content %}
+<!-- Personalized Welcome Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="p-4 bg-gradient rounded-3" style="background: linear-gradient(135deg, #0D47A1 0%, #2E7D32 100%); color: white;">
+            <h1 class="display-5">
+                <i class="bi bi-flag-fill"></i> Welcome to Fiascha, {{ current_user.display_name }}!
+            </h1>
+            <p class="lead mb-1">Citizen ID: <strong>{{ current_user.citizen_id }}</strong></p>
+            <p class="lead mb-0">Rank: <strong>{{ current_user.citizen_rank }}</strong></p>
+        </div>
+    </div>
+</div>
+
+<!-- Admin Notification Badge -->
+{% if current_user.is_admin %}
+<div class="row mb-4">
+    <div class="col-12">
+        <a href="{{ url_for('main.job_applications') }}" class="btn btn-warning btn-lg w-100">
+            <i class="bi bi-bell-fill"></i> Job Applications Dashboard
+            {% set pending_count = pending_applications|length if not current_user.is_admin else none %}
+            {% if current_user.is_admin %}
+                {% set all_pending = namespace() %}
+                {% set all_pending.count = 0 %}
+                {% for app in pending_applications %}
+                    {% set all_pending.count = all_pending.count + 1 %}
+                {% endfor %}
+                {% if all_pending.count > 0 %}
+                <span class="badge bg-danger ms-2">{{ all_pending.count }} Pending</span>
+                {% endif %}
+            {% endif %}
+        </a>
+    </div>
+</div>
+{% endif %}
+
+<!-- User's Application Status -->
+{% if pending_applications or user_jobs %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-person-badge"></i> Your Job Status</h5>
+            </div>
+            <div class="card-body">
+                <!-- Approved Jobs -->
+                {% if user_jobs %}
+                <div class="mb-3">
+                    <h6 class="text-success"><i class="bi bi-check-circle-fill"></i> Approved Jobs ({{ user_jobs|length }}/3)</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for job in user_jobs %}
+                        <span class="badge bg-success" style="font-size: 1rem; padding: 0.5rem 1rem;">
+                            <i class="bi
+                                {% if job == 'Policeman' %}bi-shield-fill-check
+                                {% elif job == 'Soldier' %}bi-person-badge-fill
+                                {% elif job == 'Judge' %}bi-hammer
+                                {% elif job == 'Lawyer' %}bi-briefcase-fill
+                                {% elif job == 'Journalist' %}bi-newspaper
+                                {% elif job == 'Coach' %}bi-trophy-fill
+                                {% endif %}"></i>
+                            {{ job }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Pending Applications -->
+                {% if pending_applications %}
+                <div>
+                    <h6 class="text-warning"><i class="bi bi-clock-fill"></i> Pending Applications</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for app in pending_applications %}
+                        <span class="badge bg-warning text-dark" style="font-size: 1rem; padding: 0.5rem 1rem;">
+                            <i class="bi bi-hourglass-split"></i> {{ app.job_title }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                    <p class="small text-muted mt-2 mb-0">Your applications are being reviewed by the President.</p>
+                </div>
+                {% endif %}
+
+                {% if not user_jobs and not pending_applications %}
+                <p class="text-muted mb-0">You haven't applied for any jobs yet. Select a profession below to apply!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Recent Application History -->
+{% if recent_applications %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="bi bi-clock-history"></i> Recent Application History</h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    {% for app in recent_applications %}
+                    <div class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="mb-1">
+                                    {{ app.job_title }}
+                                    {% if app.status == 'approved' %}
+                                    <span class="badge bg-success"><i class="bi bi-check-circle"></i> Approved</span>
+                                    {% elif app.status == 'denied' %}
+                                    <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Denied</span>
+                                    {% else %}
+                                    <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split"></i> Pending</span>
+                                    {% endif %}
+                                </h6>
+                                <p class="mb-1 small text-muted">
+                                    Applied: {{ app.created_at.strftime('%B %d, %Y at %H:%M') }}
+                                </p>
+                                {% if app.admin_response %}
+                                <p class="mb-0 small">
+                                    <strong>Response:</strong> {{ app.admin_response }}
+                                </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Job Application Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">
+                    <i class="bi bi-briefcase-fill"></i> Apply for a Job in Fiascha
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> You can apply for up to <strong>3 professions</strong>. Your applications will be reviewed by the President.
+                    {% if user_jobs|length >= 3 %}
+                    <br><strong class="text-danger">You already have 3 approved jobs and cannot apply for more.</strong>
+                    {% elif (user_jobs|length + pending_applications|length) >= 3 %}
+                    <br><strong class="text-warning">You have reached the maximum of 3 jobs (approved + pending applications).</strong>
+                    {% endif %}
+                </div>
+
+                <!-- Job Application Form -->
+                <div class="row g-3">
+                    {% for job in available_jobs %}
+                    {% set is_approved = job in user_jobs %}
+                    {% set is_pending = pending_applications|selectattr('job_title', 'equalto', job)|list|length > 0 %}
+                    {% set can_apply = not is_approved and not is_pending and (user_jobs|length + pending_applications|length) < 3 %}
+
+                    <div class="col-md-4 col-sm-6">
+                        {% if can_apply %}
+                        <!-- Application Modal Trigger -->
+                        <button type="button" class="btn btn-outline-primary w-100 text-start d-flex align-items-center justify-content-between job-option" style="padding: 1rem;" data-bs-toggle="modal" data-bs-target="#applyModal{{ loop.index }}">
+                            <span class="d-flex align-items-center">
+                                <i class="bi
+                                    {% if job == 'Policeman' %}bi-shield-fill-check
+                                    {% elif job == 'Soldier' %}bi-person-badge-fill
+                                    {% elif job == 'Judge' %}bi-hammer
+                                    {% elif job == 'Lawyer' %}bi-briefcase-fill
+                                    {% elif job == 'Journalist' %}bi-newspaper
+                                    {% elif job == 'Coach' %}bi-trophy-fill
+                                    {% endif %} me-2" style="font-size: 1.2rem;"></i>
+                                <strong>{{ job }}</strong>
+                            </span>
+                            <i class="bi bi-plus-circle"></i>
+                        </button>
+
+                        <!-- Application Modal -->
+                        <div class="modal fade" id="applyModal{{ loop.index }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="POST" action="{{ url_for('main.welcome') }}">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                        <input type="hidden" name="job" value="{{ job }}"/>
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Apply for {{ job }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>You are applying for the position of <strong>{{ job }}</strong> in Fiascha.</p>
+                                            <div class="mb-3">
+                                                <label for="message{{ loop.index }}" class="form-label">Message to the President (Optional)</label>
+                                                <textarea class="form-control" id="message{{ loop.index }}" name="message" rows="3" placeholder="Why do you want this job?"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Submit Application</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <!-- Disabled Button -->
+                        <button type="button" class="btn w-100 text-start d-flex align-items-center justify-content-between job-option-disabled" style="padding: 1rem;" disabled>
+                            <span class="d-flex align-items-center">
+                                <i class="bi
+                                    {% if job == 'Policeman' %}bi-shield-fill-check
+                                    {% elif job == 'Soldier' %}bi-person-badge-fill
+                                    {% elif job == 'Judge' %}bi-hammer
+                                    {% elif job == 'Lawyer' %}bi-briefcase-fill
+                                    {% elif job == 'Journalist' %}bi-newspaper
+                                    {% elif job == 'Coach' %}bi-trophy-fill
+                                    {% endif %} me-2" style="font-size: 1.2rem;"></i>
+                                <strong>{{ job }}</strong>
+                            </span>
+                            {% if is_approved %}
+                            <span class="badge bg-success"><i class="bi bi-check-circle-fill"></i> Approved</span>
+                            {% elif is_pending %}
+                            <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split"></i> Pending</span>
+                            {% endif %}
+                        </button>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Poll Results Section (WhatsApp Style) -->
+{% if total_selections > 0 %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">
+                    <i class="bi bi-bar-chart-fill"></i> Community Job Distribution
+                </h3>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-4">
+                    <i class="bi bi-people-fill"></i> <strong>{{ total_selections }}</strong> approved job{{ 's' if total_selections != 1 else '' }} across all citizens
+                </p>
+
+                <!-- Poll Results -->
+                <div class="poll-results">
+                    {% for job in available_jobs %}
+                    {% set count = job_counts.get(job, 0) %}
+                    {% if count > 0 %}
+                    <div class="poll-item mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span class="fw-bold">
+                                <i class="bi
+                                    {% if job == 'Policeman' %}bi-shield-fill-check
+                                    {% elif job == 'Soldier' %}bi-person-badge-fill
+                                    {% elif job == 'Judge' %}bi-hammer
+                                    {% elif job == 'Lawyer' %}bi-briefcase-fill
+                                    {% elif job == 'Journalist' %}bi-newspaper
+                                    {% elif job == 'Coach' %}bi-trophy-fill
+                                    {% endif %} me-2"></i>
+                                {{ job }}
+                                {% if job in user_jobs %}
+                                <span class="badge bg-primary ms-2">You</span>
+                                {% endif %}
+                            </span>
+                            <span class="text-muted"><strong>{{ count }}</strong> citizen{{ 's' if count != 1 else '' }} ({{ "%.1f"|format((count / total_selections * 100)) }}%)</span>
+                        </div>
+                        <div class="progress" style="height: 25px; background-color: #e9ecef; border-radius: 8px;">
+                            <div class="progress-bar" role="progressbar"
+                                 style="width: {{ (count / total_selections * 100) }}%;
+                                        background: linear-gradient(135deg, #0D47A1 0%, #2E7D32 100%);
+                                        border-radius: 8px;
+                                        transition: width 0.6s ease;"
+                                 aria-valuenow="{{ (count / total_selections * 100) }}"
+                                 aria-valuemin="0"
+                                 aria-valuemax="100">
+                                <span class="px-2" style="line-height: 25px;">{{ "%.1f"|format((count / total_selections * 100)) }}%</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<style>
+.job-option {
+    transition: all 0.3s ease;
+}
+
+.job-option:hover {
+    background-color: #e7f1ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.job-option-disabled {
+    background-color: #f8f9fa;
+    border: 2px solid #dee2e6;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.poll-item {
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.poll-item:hover {
+    background-color: #f8f9fa;
+}
+
+.progress-bar {
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+</style>
+{% endblock %}

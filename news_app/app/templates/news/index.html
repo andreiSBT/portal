@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}News - Fiascha Portal{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-newspaper"></i> News Articles</h1>
+    <form action="{{ url_for('news.search') }}" method="GET" class="d-flex">
+        <input type="text" name="query" class="form-control me-2" placeholder="Search articles..." style="width: 300px;">
+        <button type="submit" class="btn btn-outline-primary">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
+</div>
+
+<!-- Category Filter -->
+<div class="mb-4">
+    <div class="btn-group" role="group">
+        <a href="{{ url_for('news.index') }}" class="btn btn-sm {% if not selected_category %}btn-primary{% else %}btn-outline-primary{% endif %}">
+            All Categories
+        </a>
+        {% for category in categories %}
+        <a href="{{ url_for('news.index', category=category.id) }}"
+           class="btn btn-sm {% if selected_category == category.id %}btn-primary{% else %}btn-outline-primary{% endif %}">
+            {{ category.name }}
+        </a>
+        {% endfor %}
+    </div>
+
+    {% if show_featured %}
+    <a href="{{ url_for('news.index') }}" class="btn btn-sm btn-warning ms-2">
+        <i class="bi bi-star-fill"></i> Showing Featured Only (Clear)
+    </a>
+    {% else %}
+    <a href="{{ url_for('news.index', featured=1) }}" class="btn btn-sm btn-outline-warning ms-2">
+        <i class="bi bi-star"></i> Show Featured Only
+    </a>
+    {% endif %}
+</div>
+
+{% if articles %}
+<div class="row g-4">
+    {% for article in articles %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+            {% if article.image_url %}
+            <img src="{{ article.image_url }}" class="card-img-top" alt="{{ article.title }}" style="height: 200px; object-fit: cover;">
+            {% else %}
+            <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                <i class="bi bi-newspaper text-white" style="font-size: 3rem;"></i>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <span class="badge" style="background-color: {{ article.category.color }};">
+                        {{ article.category.name }}
+                    </span>
+                    {% if article.is_featured %}
+                    <span class="badge bg-warning text-dark">
+                        <i class="bi bi-star-fill"></i> Featured
+                    </span>
+                    {% endif %}
+                </div>
+                <h5 class="card-title">{{ article.title }}</h5>
+                <p class="card-text text-muted">
+                    {{ article.summary|truncate(100) if article.summary else article.content|truncate(100)|striptags }}
+                </p>
+                <p class="card-text">
+                    <small class="text-muted">
+                        <i class="bi bi-calendar"></i> {{ article.formatted_publish_date }}
+                        <i class="bi bi-person ms-2"></i> {{ article.author.display_name }}
+                        <i class="bi bi-eye ms-2"></i> {{ article.views }}
+                    </small>
+                </p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{{ url_for('news.article', slug=article.slug) }}" class="btn btn-outline-primary btn-sm">
+                    Read More <i class="bi bi-arrow-right"></i>
+                </a>
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                <a href="{{ url_for('news.edit', article_id=article.id) }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if pagination.pages > 1 %}
+<nav aria-label="Page navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item {% if not pagination.has_prev %}disabled{% endif %}">
+            <a class="page-link" href="{% if pagination.has_prev %}{{ url_for('news.index', page=pagination.prev_num, category=selected_category, featured=show_featured) }}{% else %}#{% endif %}">
+                Previous
+            </a>
+        </li>
+        {% for page_num in pagination.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+            <li class="page-item {% if page_num == pagination.page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('news.index', page=page_num, category=selected_category, featured=show_featured) }}">
+                    {{ page_num }}
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+        {% endfor %}
+        <li class="page-item {% if not pagination.has_next %}disabled{% endif %}">
+            <a class="page-link" href="{% if pagination.has_next %}{{ url_for('news.index', page=pagination.next_num, category=selected_category, featured=show_featured) }}{% else %}#{% endif %}">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+{% endif %}
+
+{% else %}
+<div class="alert alert-info" role="alert">
+    <i class="bi bi-info-circle"></i> No articles found. {% if selected_category %}Try selecting a different category.{% endif %}
+</div>
+{% endif %}
+{% endblock %}

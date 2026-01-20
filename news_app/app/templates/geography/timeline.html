@@ -1,0 +1,433 @@
+{% extends "base.html" %}
+
+{% block title %}Historical Timeline - Fiascha Portal{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="d-flex align-items-center">
+            <a href="{{ url_for('geography.index') }}" class="btn btn-outline-secondary me-3">
+                <i class="bi bi-arrow-left"></i> Back to Geography
+            </a>
+            <div class="flex-grow-1">
+                <h1 class="mb-0">
+                    <i class="bi bi-clock-history text-success"></i> Historical Timeline
+                </h1>
+                <p class="text-muted mb-0">The journey of Fiascha from foundation to present</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Timeline Legend -->
+<div class="row mb-4">
+    <div class="col-lg-10 mx-auto">
+        <div class="alert alert-info">
+            <h5 class="alert-heading"><i class="bi bi-info-circle"></i> About This Timeline</h5>
+            <p class="mb-0"><strong>Real History:</strong> December 21, 2022 onwards represents actual events in Fiascha's history. <strong>Fictional History:</strong> Events before 2022 are part of Fiascha's creative historical narrative.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Timeline -->
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="timeline">
+
+            <!-- Fictional History Section Header -->
+            <div class="text-center mb-4">
+                <div class="badge bg-secondary fs-6 py-2 px-4">
+                    <i class="bi bi-book"></i> Fictional Historical Period (2012-2022)
+                </div>
+            </div>
+
+            <!-- Early Days (Fictional) -->
+            <div class="timeline-item mb-5 opacity-75">
+                <div class="row">
+                    <div class="col-md-4 text-md-end">
+                        <div class="timeline-date">
+                            <h3 class="text-secondary">2012-2015</h3>
+                            <p class="text-muted">The Concept Era</p>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-center">
+                        <div class="timeline-line">
+                            <div class="timeline-marker bg-secondary"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card shadow-sm border-secondary">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="mb-0"><i class="bi bi-lightbulb"></i> The Idea of Fiascha (Fictional)</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>The Dream Begins</strong></p>
+                                <p>In the fictional narrative, the concept of Fiascha emerged as an idea among a group of multilingual enthusiasts and educators who envisioned a community focused on cultural exchange and learning.</p>
+                                <ul class="mb-0">
+                                    <li>Initial discussions about creating an educational micronation</li>
+                                    <li>Drafting of core principles and values</li>
+                                    <li>Early planning of governance structure</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Development Period (Fictional) -->
+            <div class="timeline-item mb-5 opacity-75">
+                <div class="row">
+                    <div class="col-md-4 text-md-end">
+                        <div class="timeline-date">
+                            <h3 class="text-secondary">2016-2020</h3>
+                            <p class="text-muted">Foundation Planning</p>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-center">
+                        <div class="timeline-line">
+                            <div class="timeline-marker bg-secondary"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card shadow-sm border-secondary">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="mb-0"><i class="bi bi-gear"></i> Development & Planning (Fictional)</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Building the Framework</strong></p>
+                                <p>The fictional development period saw the creation of Fiascha's foundational documents, symbols, and organizational structure.</p>
+                                <ul class="mb-0">
+                                    <li>Design of national symbols and flag concepts</li>
+                                    <li>Establishment of educational curriculum framework</li>
+                                    <li>Development of the citizen rank system concept</li>
+                                    <li>Planning of digital infrastructure</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real History Section Header -->
+            <div class="text-center my-5">
+                <div class="badge bg-success fs-6 py-2 px-4">
+                    <i class="bi bi-calendar-check"></i> Real History Begins (December 21, 2022 - Present)
+                </div>
+            </div>
+
+            <!-- Foundation - December 21, 2022 -->
+            <div class="timeline-item mb-5">
+                <div class="row">
+                    <div class="col-md-4 text-md-end">
+                        <div class="timeline-date">
+                            <h3 class="text-primary">December 21, 2022</h3>
+                            <p class="text-muted">The Beginning</p>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-center">
+                        <div class="timeline-line">
+                            <div class="timeline-marker bg-primary"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card shadow-sm border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="bi bi-flag-fill"></i> Foundation of Fiascha</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>The Birth of a Nation</strong></p>
+                                <p>On December 21, 2022, Fiascha was officially founded with a vision to create a micronation focused on education, culture, and innovation. The founding principles emphasized multilingual learning and community building.</p>
+                                <ul class="mb-0">
+                                    <li>Official declaration of Fiascha micronation</li>
+                                    <li>Establishment of core values and principles</li>
+                                    <li>First citizens welcomed</li>
+                                    <li>Creation of government structure</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2023 Developments -->
+            <div class="timeline-item mb-5">
+                <div class="row">
+                    <div class="col-md-4 text-md-end">
+                        <div class="timeline-date">
+                            <h3 class="text-success">2023</h3>
+                            <p class="text-muted">Community Growth</p>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-center">
+                        <div class="timeline-line">
+                            <div class="timeline-marker bg-success"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card shadow-sm border-success">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="bi bi-people-fill"></i> Community Building</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Growing the Nation</strong></p>
+                                <p>The first full year of Fiascha saw significant growth in citizenship and the development of core infrastructure.</p>
+                                <ul class="mb-0">
+                                    <li>Expansion of citizen base</li>
+                                    <li>Development of educational resources</li>
+                                    <li>Establishment of cultural programs</li>
+                                    <li>Initial diplomatic outreach</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2024 Progress -->
+            <div class="timeline-item mb-5">
+                <div class="row">
+                    <div class="col-md-4 text-md-end">
+                        <div class="timeline-date">
+                            <h3 class="text-info">2024</h3>
+                            <p class="text-muted">Infrastructure Development</p>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-center">
+                        <div class="timeline-line">
+                            <div class="timeline-marker bg-info"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card shadow-sm border-info">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="mb-0"><i class="bi bi-building"></i> Structural Development</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Building the Foundation</strong></p>
+                                <p>2024 focused on establishing robust systems and structures for Fiascha's long-term success.</p>
+                                <ul class="mb-0">
+                                    <li>Refinement of governance systems</li>
+                                    <li>Cultural event organization</li>
+                                    <li>Educational program expansion</li>
+                                    <li>Community engagement initiatives</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2025 Expansion -->
+            <div class="timeline-item mb-5">
+                <div class="row">
+                    <div class="col-md-4 text-md-end">
+                        <div class="timeline-date">
+                            <h3 class="text-warning">2025</h3>
+                            <p class="text-muted">Major Expansion</p>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-center">
+                        <div class="timeline-line">
+                            <div class="timeline-marker bg-warning"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card shadow-sm border-warning">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="mb-0"><i class="bi bi-graph-up-arrow"></i> Rapid Growth</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Expansion and Innovation</strong></p>
+                                <p>Fiascha experienced significant growth and began developing advanced digital infrastructure.</p>
+                                <ul class="mb-0">
+                                    <li>Planning of comprehensive digital portal</li>
+                                    <li>Citizen rank system formalization</li>
+                                    <li>Educational framework development</li>
+                                    <li>International micronation networking</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2026 Portal Launch -->
+            <div class="timeline-item mb-5">
+                <div class="row">
+                    <div class="col-md-4 text-md-end">
+                        <div class="timeline-date">
+                            <h3 class="text-danger">January 2026</h3>
+                            <p class="text-muted">Digital Transformation</p>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-center">
+                        <div class="timeline-line">
+                            <div class="timeline-marker bg-danger"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card shadow-sm border-danger">
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="mb-0"><i class="bi bi-laptop"></i> Fiascha Portal Launch</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Digital Home for Citizens</strong></p>
+                                <p>The official Fiascha Portal was launched, providing citizens with a comprehensive platform for news, learning, and community engagement.</p>
+                                <ul class="mb-0">
+                                    <li>News system with category organization</li>
+                                    <li>Citizen authentication and ID system (FSC-YYYY-XXX)</li>
+                                    <li>Duolingo-style learning platform (Romanian, English, French, German, Chess)</li>
+                                    <li>Geography & History section</li>
+                                    <li>Journalist rank and content creation system</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Day -->
+            <div class="timeline-item">
+                <div class="row">
+                    <div class="col-md-4 text-md-end">
+                        <div class="timeline-date">
+                            <h3 class="text-primary">Present Day</h3>
+                            <p class="text-muted">Ongoing</p>
+                        </div>
+                    </div>
+                    <div class="col-md-1 d-flex justify-content-center">
+                        <div class="timeline-line">
+                            <div class="timeline-marker bg-primary animate-pulse"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card shadow-sm border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="bi bi-arrow-clockwise"></i> Continuous Growth</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Building the Future</strong></p>
+                                <p>Fiascha continues to grow and develop, welcoming new citizens and expanding our educational and cultural offerings.</p>
+                                <div class="alert alert-info mb-0">
+                                    <strong><i class="bi bi-info-circle"></i> You Are Part of History!</strong><br>
+                                    As a citizen, you're contributing to the ongoing real story of Fiascha. Your participation helps shape our nation's future.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Future Milestones -->
+<div class="row mt-5">
+    <div class="col-lg-10 mx-auto">
+        <div class="card shadow-sm border-success">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0"><i class="bi bi-rocket-takeoff"></i> Future Milestones</h3>
+            </div>
+            <div class="card-body">
+                <p class="lead">What's next for Fiascha? Here are some planned milestones:</p>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <h6><i class="bi bi-check2-circle text-success"></i> Q1 2026</h6>
+                            <ul class="mb-0 small">
+                                <li>Launch interactive language lessons</li>
+                                <li>Introduce progress tracking system</li>
+                                <li>Expand geography content</li>
+                                <li>Add community forums</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <h6><i class="bi bi-hourglass text-warning"></i> Q2 2026</h6>
+                            <ul class="mb-0 small">
+                                <li>Mobile application release</li>
+                                <li>Virtual reality experiences</li>
+                                <li>Cultural exchange programs</li>
+                                <li>International partnerships</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <h6><i class="bi bi-hourglass text-info"></i> Q3 2026</h6>
+                            <ul class="mb-0 small">
+                                <li>National archives completion</li>
+                                <li>Cultural center launch</li>
+                                <li>Advanced chess tournaments</li>
+                                <li>Citizen achievement system</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded">
+                            <h6><i class="bi bi-hourglass text-danger"></i> Q4 2026</h6>
+                            <ul class="mb-0 small">
+                                <li>Fourth anniversary celebration</li>
+                                <li>Expanded territory concepts</li>
+                                <li>New educational courses</li>
+                                <li>Year-end achievements awards</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<style>
+.timeline-line {
+    position: relative;
+    width: 4px;
+    background: linear-gradient(to bottom, #667eea, #764ba2);
+    min-height: 100px;
+}
+
+.timeline-marker {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .7;
+    }
+}
+
+.timeline-date h3 {
+    font-weight: bold;
+}
+
+@media (max-width: 767px) {
+    .timeline-date {
+        text-align: left !important;
+        margin-bottom: 1rem;
+    }
+}
+</style>
+{% endblock %}

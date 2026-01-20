@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - To-Do List App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="bi bi-pencil-square"></i> {{ title }}</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <!-- Title Field -->
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label fw-bold") }}
+                        {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else "")) }}
+                        {% if form.title.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.title.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Description Field -->
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label fw-bold") }}
+                        {{ form.description(class="form-control", rows=4) }}
+                        {% if form.description.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.description.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Optional: Add more details about the task</div>
+                    </div>
+
+                    <!-- Priority Field -->
+                    <div class="mb-3">
+                        {{ form.priority.label(class="form-label fw-bold") }}
+                        {{ form.priority(class="form-select") }}
+                        <div class="form-text">
+                            <span class="badge bg-danger">High</span>
+                            <span class="badge bg-warning">Medium</span>
+                            <span class="badge bg-success">Low</span>
+                        </div>
+                    </div>
+
+                    <!-- Due Date Field -->
+                    <div class="mb-3">
+                        {{ form.due_date.label(class="form-label fw-bold") }}
+                        {{ form.due_date(class="form-control") }}
+                        {% if form.due_date.errors %}
+                            <div class="text-danger small">
+                                {% for error in form.due_date.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Optional: Set a deadline for this task</div>
+                    </div>
+
+                    <!-- Category Field -->
+                    <div class="mb-3">
+                        {{ form.category.label(class="form-label fw-bold") }}
+                        {{ form.category(class="form-select") }}
+                        <div class="form-text">
+                            Optional: Organize with categories
+                            <a href="{{ url_for('main.categories') }}" target="_blank">Manage categories</a>
+                        </div>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Fiascha Portal{% endblock %}
+
+{% block content %}
+<div class="jumbotron bg-light p-5 rounded-3 mb-4">
+    <h1 class="display-4">Welcome to Fiascha Portal</h1>
+    <p class="lead">Your source for the latest news and articles.</p>
+    <hr class="my-4">
+    <p>Browse through our collection of articles or check out the featured news below.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('news.index') }}" role="button">
+        <i class="bi bi-newspaper"></i> View All News
+    </a>
+</div>
+
+{% if featured_articles %}
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">
+            <i class="bi bi-star-fill text-warning"></i> Featured Articles
+        </h2>
+    </div>
+</div>
+
+<div class="row g-4">
+    {% for article in featured_articles %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+            {% if article.image_url %}
+            <img src="{{ article.image_url }}" class="card-img-top" alt="{{ article.title }}" style="height: 200px; object-fit: cover;">
+            {% else %}
+            <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 200px;">
+                <i class="bi bi-newspaper text-white" style="font-size: 3rem;"></i>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <span class="badge" style="background-color: {{ article.category.color }};">
+                    {{ article.category.name }}
+                </span>
+                <h5 class="card-title mt-2">{{ article.title }}</h5>
+                <p class="card-text text-muted">{{ article.summary|truncate(100) if article.summary else article.content|truncate(100)|striptags }}</p>
+                <p class="card-text">
+                    <small class="text-muted">
+                        <i class="bi bi-calendar"></i> {{ article.formatted_publish_date }}
+                        <i class="bi bi-person ms-2"></i> {{ article.author.username }}
+                    </small>
+                </p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{{ url_for('news.article', slug=article.slug) }}" class="btn btn-outline-primary btn-sm">
+                    Read More <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-info" role="alert">
+    <i class="bi bi-info-circle"></i> No featured articles available at the moment.
+</div>
+{% endif %}
+
+{% if current_user.is_authenticated and current_user.is_admin %}
+<div class="mt-5">
+    <div class="card border-primary">
+        <div class="card-header bg-primary text-white">
+            <i class="bi bi-shield-fill-check"></i> Admin Quick Actions
+        </div>
+        <div class="card-body">
+            <a href="{{ url_for('news.create') }}" class="btn btn-primary me-2">
+                <i class="bi bi-plus-circle"></i> Create New Article
+            </a>
+            <a href="{{ url_for('news.categories') }}" class="btn btn-outline-primary">
+                <i class="bi bi-tags"></i> Manage Categories
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
