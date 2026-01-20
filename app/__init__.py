@@ -25,4 +25,8 @@ def create_app(config_name='default'):
     from app import routes, models
     app.register_blueprint(routes.bp)
 
+    # Create database tables (needed for Vercel serverless)
+    with app.app_context():
+        db.create_all()
+
     return app

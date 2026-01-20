@@ -6,9 +6,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from run import app
 
-# Vercel serverless function handler
-def handler(event, context):
-    return app(event, context)
-
-# For Vercel to use the Flask app
-application = app
+# Export the Flask app for Vercel
+# Vercel will use this as the WSGI application
+app = app
