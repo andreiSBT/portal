@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - To-Do List App{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Profile Card -->
+    <div class="col-md-4 mb-4">
+        <div class="card shadow">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-person-circle" style="font-size: 5rem; color: var(--bs-primary);"></i>
+                </div>
+                <h4>{{ current_user.username }}</h4>
+                <p class="text-muted">{{ current_user.email }}</p>
+                {% if current_user.full_name %}
+                    <p class="mb-1"><strong>{{ current_user.full_name }}</strong></p>
+                {% endif %}
+                {% if current_user.location %}
+                    <p class="text-muted mb-1">
+                        <i class="bi bi-geo-alt"></i> {{ current_user.location }}
+                    </p>
+                {% endif %}
+                {% if current_user.website %}
+                    <p class="mb-1">
+                        <a href="{{ current_user.website }}" target="_blank">
+                            <i class="bi bi-link-45deg"></i> {{ current_user.website }}
+                        </a>
+                    </p>
+                {% endif %}
+                {% if current_user.bio %}
+                    <hr>
+                    <p class="text-muted">{{ current_user.bio }}</p>
+                {% endif %}
+                <hr>
+                <div class="d-flex justify-content-around text-center">
+                    <div>
+                        <h5 class="mb-0">{{ current_user.tasks.count() }}</h5>
+                        <small class="text-muted">Tasks</small>
+                    </div>
+                    <div>
+                        <h5 class="mb-0">{{ current_user.tasks.filter_by(completed=True).count() }}</h5>
+                        <small class="text-muted">Completed</small>
+                    </div>
+                    <div>
+                        <h5 class="mb-0">{{ current_user.categories.count() }}</h5>
+                        <small class="text-muted">Categories</small>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-muted text-center">
+                <small>Member since {{ current_user.created_at.strftime('%B %Y') }}</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Form -->
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-pencil-square"></i> Edit Profile</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+
+                    <div class="mb-3">
+                        {{ form.full_name.label(class="form-label") }}
+                        {{ form.full_name(class="form-control" + (" is-invalid" if form.full_name.errors else ""), placeholder="Your full name") }}
+                        {% if form.full_name.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.full_name.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.bio.label(class="form-label") }}
+                        {{ form.bio(class="form-control" + (" is-invalid" if form.bio.errors else ""), rows="3", placeholder="Tell us about yourself...") }}
+                        {% if form.bio.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.bio.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">Max 500 characters.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.location.label(class="form-label") }}
+                        {{ form.location(class="form-control" + (" is-invalid" if form.location.errors else ""), placeholder="City, Country") }}
+                        {% if form.location.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.location.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.website.label(class="form-label") }}
+                        {{ form.website(class="form-control" + (" is-invalid" if form.website.errors else ""), placeholder="https://yourwebsite.com") }}
+                        {% if form.website.errors %}
+                            <div class="invalid-feedback">
+                                {% for error in form.website.errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

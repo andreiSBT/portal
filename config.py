@@ -4,13 +4,29 @@ from datetime import timedelta
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 def get_database_url():
-    """Get database URL and fix postgres:// to postgresql:// for SQLAlchemy"""
+    """Get database URL and fix postgres:// to postgresql:// for SQLAlchemy.
+
+    In production, requires POSTGRES_URL (or DATABASE_URL / DATABASE_URI) to be set.
+    To configure on Vercel:
+      1. Vercel Dashboard -> Project -> Storage -> Create Database -> Postgres
+         (Vercel auto-sets POSTGRES_URL once the database is linked)
+      2. Or manually: Settings -> Environment Variables -> add POSTGRES_URL
+    """
     url = os.environ.get('POSTGRES_URL') or \
           os.environ.get('DATABASE_URL') or \
           os.environ.get('DATABASE_URI')
     if url and url.startswith('postgres://'):
         url = url.replace('postgres://', 'postgresql://', 1)
-    return url or 'sqlite:///' + os.path.join(basedir, 'todo_dev.db')
+    if url:
+        return url
+    # In production, SQLite won't work (e.g. Vercel has a read-only filesystem)
+    if os.environ.get('FLASK_ENV') == 'production':
+        raise RuntimeError(
+            "No database URL configured. Set POSTGRES_URL in your environment. "
+            "On Vercel: Dashboard -> Project -> Storage -> Create/Link a Postgres database, "
+            "or add POSTGRES_URL under Settings -> Environment Variables."
+        )
+    return 'sqlite:///' + os.path.join(basedir, 'todo_dev.db')
 
 class Config:
     """Base configuration class"""
